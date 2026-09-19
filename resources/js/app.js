@@ -625,27 +625,6 @@ function initCounterTickers() {
 }
 
 /**
- * 14. SOFT POPUP LIVE STATUS PILL
- */
-function initLiveStatusPill() {
-    const pill = document.getElementById('live-status-pill');
-    const dismissBtn = document.getElementById('dismiss-status-pill');
-
-    if (!pill) return;
-
-    if (dismissBtn) {
-        dismissBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            pill.style.transition = 'opacity 0.3s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
-            pill.style.opacity = '0';
-            pill.style.transform = 'translateY(20px) scale(0.9)';
-            setTimeout(() => pill.remove(), 400);
-        });
-    }
-}
-
-/**
  * Global Initialization on DOMContentLoaded
  */
 document.addEventListener('DOMContentLoaded', () => {
@@ -662,7 +641,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initCardTilt3D();
     initScrollProgress();
     initCounterTickers();
-    initLiveStatusPill();
 });
 
 
