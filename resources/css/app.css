@@ -1,9 +1,284 @@
+/* ==========================================================================
+   ZYTRIXON V2 — Design System
+   ==========================================================================
+   Source of truth: docs/04-design-system.md, docs/05-motion-system.md
+   Brand: Dark-first, engineering identity, technical precision
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-
+/* --------------------------------------------------------------------------
+   2. TAILWIND THEME — Design Tokens
+   -------------------------------------------------------------------------- */
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    /* --- Typography --- */
+    --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace;
+
+    /* --- Colors: Dark-first brand palette --- */
+
+    /* Neutrals (dark-first) */
+    --color-bg: #0A0A0B;
+    --color-bg-elevated: #111113;
+    --color-bg-surface: #18181B;
+    --color-bg-muted: #1E1E22;
+    --color-bg-subtle: #27272A;
+
+    /* Foreground / Text */
+    --color-fg: #FAFAFA;
+    --color-fg-secondary: #A1A1AA;
+    --color-fg-muted: #71717A;
+    --color-fg-subtle: #52525B;
+
+    /* Brand Accent — Electric blue-white (Zytrixon engineering identity) */
+    --color-accent: #3B82F6;
+    --color-accent-hover: #60A5FA;
+    --color-accent-muted: #1D4ED8;
+    --color-accent-subtle: rgba(59, 130, 246, 0.1);
+
+    /* Semantic */
+    --color-success: #22C55E;
+    --color-warning: #F59E0B;
+    --color-error: #EF4444;
+    --color-info: #3B82F6;
+
+    /* Borders */
+    --color-border: #27272A;
+    --color-border-hover: #3F3F46;
+    --color-border-active: #3B82F6;
+
+    /* --- Spacing: Section rhythm --- */
+    --spacing-section: 6rem;
+    --spacing-section-sm: 4rem;
+    --spacing-component: 2rem;
+    --spacing-element: 1rem;
+
+    /* --- Container --- */
+    --container-max: 1280px;
+    --container-narrow: 960px;
+    --container-prose: 720px;
+
+    /* --- Border Radius --- */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-full: 9999px;
+
+    /* --- Z-Index --- */
+    --z-behind: -1;
+    --z-base: 0;
+    --z-dropdown: 100;
+    --z-sticky: 200;
+    --z-overlay: 300;
+    --z-modal: 400;
+    --z-toast: 500;
+}
+
+/* --------------------------------------------------------------------------
+   3. CSS CUSTOM PROPERTIES — Motion Tokens (docs/05-motion-system.md)
+   -------------------------------------------------------------------------- */
+:root {
+    /* Duration */
+    --motion-duration-instant: 100ms;
+    --motion-duration-fast: 150ms;
+    --motion-duration-standard: 300ms;
+    --motion-duration-slow: 500ms;
+    --motion-duration-emphasis: 700ms;
+
+    /* Easing */
+    --motion-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    --motion-ease-enter: cubic-bezier(0, 0, 0.2, 1);
+    --motion-ease-exit: cubic-bezier(0.4, 0, 1, 1);
+    --motion-ease-emphasis: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* --------------------------------------------------------------------------
+   4. REDUCED MOTION — Mandatory per spec
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --motion-duration-instant: 0ms;
+        --motion-duration-fast: 0ms;
+        --motion-duration-standard: 0ms;
+        --motion-duration-slow: 0ms;
+        --motion-duration-emphasis: 0ms;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   5. BASE STYLES — Global resets and defaults
+   -------------------------------------------------------------------------- */
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    line-height: 1.6;
+    min-height: 100dvh;
+}
+
+/* --------------------------------------------------------------------------
+   6. FOCUS — Accessible, visible focus indicators (docs/09-accessibility.md)
+   -------------------------------------------------------------------------- */
+:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* Remove default focus ring for mouse users */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* --------------------------------------------------------------------------
+   7. TYPOGRAPHY SCALE — Engineering precision
+   -------------------------------------------------------------------------- */
+.text-display {
+    font-size: clamp(2.5rem, 5vw + 1rem, 4.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+}
+
+.text-h1 {
+    font-size: clamp(2rem, 4vw + 0.5rem, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.text-h2 {
+    font-size: clamp(1.5rem, 3vw + 0.25rem, 2.5rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+}
+
+.text-h3 {
+    font-size: clamp(1.25rem, 2vw + 0.25rem, 1.75rem);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+}
+
+.text-h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.text-body {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.text-body-sm {
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.text-caption {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+}
+
+.text-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   8. SECTION REVEAL — Lightweight CSS-first animation (IntersectionObserver)
+   Per docs/05-motion-system.md §5.1
+   -------------------------------------------------------------------------- */
+.reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+        opacity var(--motion-duration-standard) var(--motion-ease-enter),
+        transform var(--motion-duration-standard) var(--motion-ease-enter);
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered reveal for child elements */
+.reveal-stagger > .reveal:nth-child(1) { transition-delay: 0ms; }
+.reveal-stagger > .reveal:nth-child(2) { transition-delay: 80ms; }
+.reveal-stagger > .reveal:nth-child(3) { transition-delay: 160ms; }
+.reveal-stagger > .reveal:nth-child(4) { transition-delay: 240ms; }
+.reveal-stagger > .reveal:nth-child(5) { transition-delay: 320ms; }
+.reveal-stagger > .reveal:nth-child(6) { transition-delay: 400ms; }
+
+/* --------------------------------------------------------------------------
+   9. SELECTION — Brand-consistent text selection
+   -------------------------------------------------------------------------- */
+::selection {
+    background-color: var(--color-accent);
+    color: var(--color-fg);
+}
+
+/* --------------------------------------------------------------------------
+   10. SCROLLBAR — Subtle, dark-themed
+   -------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-bg-subtle);
+    border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-fg-muted);
+}
+
+/* --------------------------------------------------------------------------
+   11. SKIP LINK — Accessibility (docs/09-accessibility.md §8)
+   -------------------------------------------------------------------------- */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    z-index: var(--z-toast);
+    padding: 0.75rem 1.5rem;
+    background: var(--color-accent);
+    color: var(--color-fg);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    transition: top var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.skip-link:focus {
+    top: 1rem;
 }
