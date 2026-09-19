@@ -19,9 +19,10 @@ final class PagesTest extends TestCase
 
         $response->assertOk()
             ->assertSee('ZYTRIXON')
-            ->assertSee('We Engineer Digital Dominance')
-            ->assertSee('Capabilities')
-            ->assertSee('Selected Work');
+            ->assertSee('Build What')
+            ->assertSee('Business Forward')
+            ->assertSee('OUR SERVICES')
+            ->assertSee('FEATURED WORK');
     }
 
     public function test_homepage_contains_schema_and_og_metadata(): void

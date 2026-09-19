@@ -36,7 +36,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-bg text-fg antialiased">
+<body class="bg-[#FAFAFA] text-neutral-900 antialiased selection:bg-neutral-900 selection:text-white">
 
     {{-- Skip Link — Accessibility per docs/09-accessibility.md §8 --}}
     <a href="#main-content" class="skip-link">

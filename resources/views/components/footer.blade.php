@@ -3,85 +3,108 @@
     use App\Content\Site;
 @endphp
 
-{{-- Footer — docs/17-component-inventory.md §12
-     Contact info, nav links, social, copyright --}}
-<footer class="border-t border-border bg-bg-elevated" role="contentinfo">
-    <div class="mx-auto max-w-[var(--container-max)] px-6 py-16 lg:px-8 lg:py-20">
+<footer class="border-t border-neutral-200/80 bg-white" role="contentinfo">
+    <div class="mx-auto max-w-[1400px] px-6 py-16 lg:px-12 lg:py-20">
 
-        {{-- Footer Grid --}}
-        <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+        <div class="grid gap-12 lg:grid-cols-12">
 
-            {{-- Brand Column --}}
-            <div class="lg:col-span-1">
-                <a href="/" class="text-label text-lg tracking-[0.15em] text-fg" aria-label="{{ Site::BRAND }} — Home">
+            {{-- Brand Column (3 cols) --}}
+            <div class="lg:col-span-3 space-y-4">
+                <a href="/" class="text-xl font-bold tracking-[0.18em] text-neutral-900 uppercase" aria-label="{{ Site::BRAND }} — Home">
                     {{ Site::BRAND }}
                 </a>
-                <p class="mt-4 max-w-xs text-body-sm text-fg-secondary">
-                    {{ Site::DESCRIPTION }}
+                <p class="text-sm text-neutral-500 max-w-xs">
+                    Technology for a better tomorrow.
                 </p>
-                <div class="mt-6 space-y-2">
-                    <a href="mailto:{{ Site::EMAIL }}" class="block text-body-sm text-fg-secondary transition-colors duration-150 hover:text-accent">
-                        {{ Site::EMAIL }}
+
+                {{-- Social Icons --}}
+                <div class="flex items-center gap-3 pt-2">
+                    {{-- LinkedIn --}}
+                    <a href="#" class="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 text-neutral-600 transition-colors hover:border-neutral-900 hover:text-neutral-900" aria-label="LinkedIn">
+                        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.64 1.64 0 1 0 0-3.28 1.64 1.64 0 0 0 0 3.28m1.39 9.74v-8.37H5.07v8.37h2.78Z"/></svg>
                     </a>
-                    <a href="tel:{{ str_replace(' ', '', Site::PHONE_PRIMARY) }}" class="block text-body-sm text-fg-secondary transition-colors duration-150 hover:text-accent">
-                        {{ Site::PHONE_PRIMARY }}
+                    {{-- Twitter / X --}}
+                    <a href="#" class="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 text-neutral-600 transition-colors hover:border-neutral-900 hover:text-neutral-900" aria-label="X / Twitter">
+                        <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                     </a>
-                    <p class="text-body-sm text-fg-muted">
-                        {{ Site::primaryAddress() }}
-                    </p>
+                    {{-- Instagram --}}
+                    <a href="#" class="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 text-neutral-600 transition-colors hover:border-neutral-900 hover:text-neutral-900" aria-label="Instagram">
+                        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    </a>
+                    {{-- YouTube --}}
+                    <a href="#" class="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 text-neutral-600 transition-colors hover:border-neutral-900 hover:text-neutral-900" aria-label="YouTube">
+                        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    </a>
                 </div>
             </div>
 
-            {{-- Navigation Columns --}}
-            @foreach (Navigation::footer() as $group => $links)
+            {{-- Nav Columns (5 cols) --}}
+            <div class="lg:col-span-5 grid grid-cols-3 gap-8">
+                {{-- Services --}}
                 <div>
-                    <h3 class="text-label text-fg-muted">{{ $group }}</h3>
-                    <ul class="mt-4 space-y-3" role="list">
-                        @foreach ($links as $link)
-                            <li>
-                                <a href="{{ $link['href'] }}"
-                                   class="text-body-sm text-fg-secondary transition-colors duration-150 hover:text-fg">
-                                    {{ $link['label'] }}
-                                </a>
-                            </li>
-                        @endforeach
+                    <h3 class="text-sm font-semibold text-neutral-900">Services</h3>
+                    <ul class="mt-4 space-y-2.5 text-sm text-neutral-600" role="list">
+                        <li><a href="/services/custom-software" class="hover:text-neutral-900 transition-colors">Custom Software</a></li>
+                        <li><a href="/services/web-development" class="hover:text-neutral-900 transition-colors">Web Development</a></li>
+                        <li><a href="/services/app-development" class="hover:text-neutral-900 transition-colors">Mobile Apps</a></li>
+                        <li><a href="/services/ai-automation" class="hover:text-neutral-900 transition-colors">AI & Automation</a></li>
+                        <li><a href="/services/web-development" class="hover:text-neutral-900 transition-colors">UI/UX Design</a></li>
+                        <li><a href="/services/iot-solutions" class="hover:text-neutral-900 transition-colors">Digital Consultancy</a></li>
                     </ul>
                 </div>
-            @endforeach
 
-            {{-- Connect Column --}}
-            <div>
-                <h3 class="text-label text-fg-muted">Connect</h3>
-                <div class="mt-4 space-y-3">
-                    <a href="mailto:{{ Site::EMAIL }}"
-                       class="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm text-fg-secondary transition-all duration-150 hover:border-border-hover hover:text-fg">
-                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-                        </svg>
-                        Email Us
-                    </a>
-                    <a href="https://wa.me/{{ str_replace(['+', ' '], '', Site::PHONE_PRIMARY) }}"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm text-fg-secondary transition-all duration-150 hover:border-border-hover hover:text-fg">
-                        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-                            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 0 0 .918.918l4.458-1.495A11.952 11.952 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.94 9.94 0 0 1-5.39-1.584l-.386-.238-2.65.889.889-2.65-.238-.386A9.94 9.94 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
-                        </svg>
-                        WhatsApp
-                    </a>
+                {{-- Company --}}
+                <div>
+                    <h3 class="text-sm font-semibold text-neutral-900">Company</h3>
+                    <ul class="mt-4 space-y-2.5 text-sm text-neutral-600" role="list">
+                        <li><a href="/about" class="hover:text-neutral-900 transition-colors">About Us</a></li>
+                        <li><a href="/work" class="hover:text-neutral-900 transition-colors">Our Work</a></li>
+                        <li><a href="/#insights" class="hover:text-neutral-900 transition-colors">Insights</a></li>
+                        <li><a href="/about#careers" class="hover:text-neutral-900 transition-colors">Careers</a></li>
+                        <li><a href="/contact" class="hover:text-neutral-900 transition-colors">Contact</a></li>
+                    </ul>
                 </div>
+
+                {{-- Legal --}}
+                <div>
+                    <h3 class="text-sm font-semibold text-neutral-900">Legal</h3>
+                    <ul class="mt-4 space-y-2.5 text-sm text-neutral-600" role="list">
+                        <li><a href="#" class="hover:text-neutral-900 transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-neutral-900 transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            {{-- Newsletter / Stay in touch (4 cols) --}}
+            <div class="lg:col-span-4 space-y-3">
+                <h3 class="text-sm font-semibold text-neutral-900">Stay in touch</h3>
+                <p class="text-sm text-neutral-500">
+                    Get the latest insights and updates.
+                </p>
+
+                <form action="/contact" method="GET" class="relative mt-4 flex items-center">
+                    <input
+                        type="email"
+                        placeholder="Enter your email"
+                        class="w-full rounded-full border border-neutral-300 bg-white px-5 py-3 pr-12 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                    />
+                    <button type="submit" class="absolute right-1.5 flex h-9 w-9 items-center justify-center rounded-full bg-neutral-900 text-white transition-colors hover:bg-black" aria-label="Subscribe">
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                        </svg>
+                    </button>
+                </form>
             </div>
 
         </div>
 
         {{-- Bottom Bar --}}
-        <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 md:flex-row">
-            <p class="text-caption text-fg-muted">
-                &copy; {{ date('Y') }} {{ Site::NAME }}. All rights reserved.
+        <div class="mt-16 flex flex-col items-center justify-between gap-4 border-t border-neutral-200/80 pt-8 text-xs text-neutral-500 sm:flex-row">
+            <p>
+                &copy; {{ date('Y') }} Zytrixon. All rights reserved.
             </p>
-            <p class="text-caption text-fg-subtle">
-                {{ Site::POSITIONING }}
+            <p class="flex items-center gap-1">
+                Built with purpose in India <span class="text-red-500">❤️</span>
             </p>
         </div>
 

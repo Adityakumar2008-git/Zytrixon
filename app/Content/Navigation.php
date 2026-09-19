@@ -6,7 +6,7 @@ namespace App\Content;
 
 /**
  * Navigation structure for the Zytrixon website.
- * Driven from typed configuration per docs/17-component-inventory.md §11.
+ * Matches exact UI design: Services, Work, Insights, About, Careers.
  */
 final class Navigation
 {
@@ -20,13 +20,14 @@ final class Navigation
         return [
             ['label' => 'Services', 'href' => '/services', 'children' => null],
             ['label' => 'Work', 'href' => '/work', 'children' => null],
+            ['label' => 'Insights', 'href' => '/#insights', 'children' => null],
             ['label' => 'About', 'href' => '/about', 'children' => null],
-            ['label' => 'Contact', 'href' => '/contact', 'children' => null],
+            ['label' => 'Careers', 'href' => '/about#careers', 'children' => null],
         ];
     }
 
     /**
-     * Footer navigation groups.
+     * Footer navigation groups matching UI design.
      *
      * @return array<string, array<int, array{label: string, href: string}>>
      */
@@ -34,17 +35,23 @@ final class Navigation
     {
         return [
             'Services' => [
-                ['label' => 'Web Development', 'href' => '/services/web-development'],
-                ['label' => 'App Development', 'href' => '/services/app-development'],
-                ['label' => 'IoT Solutions', 'href' => '/services/iot-solutions'],
-                ['label' => 'AI & Automation', 'href' => '/services/ai-automation'],
                 ['label' => 'Custom Software', 'href' => '/services/custom-software'],
-                ['label' => 'Digital Marketing', 'href' => '/services/digital-marketing'],
+                ['label' => 'Web Development', 'href' => '/services/web-development'],
+                ['label' => 'Mobile Apps', 'href' => '/services/app-development'],
+                ['label' => 'AI & Automation', 'href' => '/services/ai-automation'],
+                ['label' => 'UI/UX Design', 'href' => '/services/web-development'],
+                ['label' => 'Digital Consultancy', 'href' => '/services/iot-solutions'],
             ],
             'Company' => [
                 ['label' => 'About Us', 'href' => '/about'],
                 ['label' => 'Our Work', 'href' => '/work'],
+                ['label' => 'Insights', 'href' => '/#insights'],
+                ['label' => 'Careers', 'href' => '/about#careers'],
                 ['label' => 'Contact', 'href' => '/contact'],
+            ],
+            'Legal' => [
+                ['label' => 'Privacy Policy', 'href' => '#'],
+                ['label' => 'Terms of Service', 'href' => '#'],
             ],
         ];
     }
