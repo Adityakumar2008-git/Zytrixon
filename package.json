@@ -4,7 +4,9 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "export": "php artisan export:static",
+        "netlify-build": "vite build && node scripts/export-site.js"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.3.3",

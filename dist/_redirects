@@ -1,0 +1,3 @@
+# Netlify Redirects for Zytrixon
+# Serve 404 page for missing endpoints
+/*    /404.html   404

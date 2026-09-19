@@ -37,8 +37,9 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('contact.submit') }}" method="POST" class="space-y-6" novalidate>
+                    <form action="{{ route('contact.submit') }}" method="POST" name="contact" data-netlify="true" netlify-honeypot="hp_company" class="space-y-6" novalidate>
                         @csrf
+                        <input type="hidden" name="form-name" value="contact" />
 
                         {{-- Honeypot field (hidden from human users, catches bots) --}}
                         <div class="hidden" aria-hidden="true">
