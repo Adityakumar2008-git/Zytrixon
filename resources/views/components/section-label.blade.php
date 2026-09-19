@@ -4,10 +4,10 @@
     'class' => '',
 ])
 
-<div {{ $attributes->merge(['class' => 'flex items-center gap-3 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-accent ' . $class]) }}>
+<div {{ $attributes->merge(['class' => 'flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.2em] text-neutral-400 ' . $class]) }}>
     @if($number)
-        <span class="text-accent/60">{{ str_pad((string)$number, 2, '0', STR_PAD_LEFT) }}</span>
-        <span class="text-border-hover">//</span>
+        <span class="text-neutral-900 font-semibold">{{ str_pad((string)$number, 2, '0', STR_PAD_LEFT) }}</span>
+        <span class="text-neutral-300">//</span>
     @endif
     <span>{{ $label }}</span>
 </div>

@@ -14,12 +14,12 @@
     $inputId = $id ?? $name;
 @endphp
 
-<div class="space-y-1.5">
+<div class="space-y-2">
     @if ($label)
-        <label for="{{ $inputId }}" class="block text-xs font-mono font-medium uppercase tracking-wider text-fg-secondary">
+        <label for="{{ $inputId }}" class="block text-xs font-mono font-semibold uppercase tracking-wider text-neutral-700">
             {{ $label }}
             @if ($required)
-                <span class="text-accent ml-0.5">*</span>
+                <span class="text-neutral-900 ml-0.5">*</span>
             @endif
         </label>
     @endif
@@ -31,15 +31,15 @@
         placeholder="{{ $placeholder }}"
         @if ($required) required @endif
         {{ $attributes->merge([
-            'class' => 'w-full rounded-lg border bg-bg-surface px-4 py-2.5 text-sm text-fg placeholder:text-fg-muted transition-colors focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:opacity-50 ' . ($error || $errors->has($name) ? 'border-red-500' : 'border-border')
+            'class' => 'w-full rounded-xl border bg-white px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 transition-colors focus:border-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900 disabled:opacity-50 ' . ($error || $errors->has($name) ? 'border-red-500' : 'border-neutral-300')
         ]) }}
     >{{ old($name, $value) }}</textarea>
 
     @if ($help && !$error && !$errors->has($name))
-        <p class="text-xs text-fg-muted">{{ $help }}</p>
+        <p class="text-xs text-neutral-500">{{ $help }}</p>
     @endif
 
     @error($name)
-        <p class="text-xs text-red-400 mt-1 font-mono">{{ $message }}</p>
+        <p class="text-xs text-red-600 mt-1 font-mono">{{ $message }}</p>
     @enderror
 </div>

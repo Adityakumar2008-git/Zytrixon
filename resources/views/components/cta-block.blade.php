@@ -1,47 +1,79 @@
 @props([
-    'title' => 'Ready to Build Something Exceptional?',
+    'title' => "Let's turn your idea\ninto real impact.",
     'description' => 'Discuss your technical requirements with our engineering leadership and receive a structured architecture proposal.',
-    'buttonText' => 'Start a Project',
+    'buttonText' => 'Start a Conversation',
     'buttonHref' => '/contact',
-    'secondaryText' => 'Schedule a Consultation',
-    'secondaryHref' => 'mailto:zytrixon@gmail.com',
+    'secondaryText' => null,
+    'secondaryHref' => null,
+    'label' => 'READY TO BUILD?',
     'class' => '',
 ])
 
-<div {{ $attributes->merge(['class' => 'relative overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-bg-surface to-bg-elevated p-8 sm:p-12 lg:p-16 text-center ' . $class]) }}>
-    {{-- Glow background --}}
-    <div class="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-48 w-96 rounded-full bg-accent/15 blur-3xl" aria-hidden="true"></div>
+<div {{ $attributes->merge(['class' => 'reveal relative overflow-hidden rounded-3xl frosted-glass-card grid lg:grid-cols-12 items-stretch hover-lift ' . $class]) }}>
 
-    <div class="relative mx-auto max-w-2xl">
-        <p class="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-accent">
-            Next Steps
-        </p>
+    {{-- Left Content Area --}}
+    <div class="p-8 sm:p-12 lg:p-16 lg:col-span-8 flex flex-col justify-between relative z-10">
+        {{-- Subtle ambient liquid reflection --}}
+        <div class="pointer-events-none absolute -top-24 -left-24 h-64 w-64 rounded-full bg-neutral-200/40 blur-3xl" aria-hidden="true"></div>
 
-        <h2 class="mt-4 text-2xl font-bold tracking-tight text-fg sm:text-3xl lg:text-4xl">
-            {{ $title }}
-        </h2>
+        <div class="relative z-10">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-neutral-200/80 bg-white/90 backdrop-blur-md font-mono text-xs uppercase tracking-[0.2em] text-neutral-500 shadow-xs">
+                <span>{{ $label }}</span>
+            </div>
 
-        <p class="mt-4 text-base leading-relaxed text-fg-secondary sm:text-lg">
-            {{ $description }}
-        </p>
+            <h2 class="mt-5 text-3xl sm:text-5xl font-bold tracking-tight text-neutral-900 leading-[1.12]">
+                {!! nl2br(e($title)) !!}
+            </h2>
 
-        <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <x-button variant="primary" :href="$buttonHref">
-                {{ $buttonText }}
-                <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                </svg>
-            </x-button>
-
-            @if($secondaryHref)
-                <x-button variant="outline" :href="$secondaryHref">
-                    {{ $secondaryText }}
-                </x-button>
+            @if($description)
+                <p class="mt-4 text-base sm:text-lg text-neutral-600 max-w-xl leading-relaxed">
+                    {{ $description }}
+                </p>
             @endif
         </div>
 
-        <p class="mt-6 text-xs text-fg-muted font-mono">
-            Typical response time: Within 2 hours &bull; 100% Confidential
-        </p>
+        <div class="relative z-10 mt-10">
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="{{ $buttonHref }}"
+                   class="btn-magnetic inline-flex items-center gap-2 rounded-full bg-neutral-900 px-7 py-3.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-black hover:shadow-xl active:scale-[0.97]">
+                    <span>{{ $buttonText }}</span>
+                    <svg class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                    </svg>
+                </a>
+
+                @if($secondaryHref && $secondaryText)
+                    <a href="{{ $secondaryHref }}"
+                       class="btn-magnetic inline-flex items-center gap-2 rounded-full border border-neutral-300/90 bg-white/90 backdrop-blur-md px-6 py-3.5 text-sm font-semibold text-neutral-800 transition-all duration-200 hover:border-neutral-900 hover:text-neutral-900 hover:shadow-md active:scale-[0.97]">
+                        <span>{{ $secondaryText }}</span>
+                    </a>
+                @endif
+            </div>
+
+            <div class="mt-8 flex items-center gap-2.5 text-xs text-neutral-500 font-mono">
+                <span class="h-2 w-2 rounded-full bg-emerald-500 ring-4 ring-emerald-500/20 animate-pulse"></span>
+                <span>Typical response time: Within 2 hours &bull; 100% Confidential</span>
+            </div>
+        </div>
+    </div>
+
+    {{-- Right Dark Glass Wing --}}
+    <div class="relative hidden lg:flex lg:col-span-4 frosted-glass-dark text-white p-12 flex-col justify-center items-start overflow-hidden border-l border-white/10">
+        {{-- Diagonal architectural lines --}}
+        <div class="absolute inset-0 opacity-20 bg-[linear-gradient(135deg,rgba(255,255,255,0.15)_1px,transparent_1px)] bg-[size:36px_36px] pointer-events-none"></div>
+
+        {{-- Ambient blue glow --}}
+        <div class="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-blue-500/15 blur-3xl" aria-hidden="true"></div>
+
+        {{-- Vertical Typography with subtle divider line --}}
+        <div class="relative z-10 space-y-3 font-mono text-xs uppercase tracking-[0.3em] text-white/70 pl-4 border-l border-white/20">
+            <p class="font-semibold text-white flex items-center gap-2">
+                <span>IDEAS</span>
+                <span class="h-1 w-1 rounded-full bg-white"></span>
+            </p>
+            <p>TECHNOLOGY</p>
+            <p>PEOPLE</p>
+            <p class="text-white/90">IMPACT</p>
+        </div>
     </div>
 </div>

@@ -3,21 +3,19 @@
     use App\Content\Site;
 @endphp
 
-{{-- Mobile Navigation Drawer
-     Per docs/09-accessibility.md: keyboard navigation, focus management, aria-expanded
-     Focus trapping and escape handling via resources/js/app.js --}}
+{{-- Mobile Navigation Drawer --}}
 <nav id="mobile-nav"
-     class="fixed top-0 right-0 h-full w-80 max-w-[85vw] translate-x-full bg-bg-elevated border-l border-border transition-transform duration-300 ease-in-out lg:hidden"
-     style="z-index: var(--z-modal);"
+     class="fixed top-0 right-0 h-full w-80 max-w-[85vw] translate-x-full bg-white border-l border-neutral-200/80 shadow-2xl transition-transform duration-300 ease-in-out lg:hidden"
+     style="z-index: 100;"
      aria-label="Mobile navigation"
      aria-hidden="true">
 
     <div class="flex h-full flex-col">
 
         {{-- Header --}}
-        <div class="flex h-16 items-center justify-between border-b border-border px-6">
-            <span class="text-label tracking-[0.15em] text-fg">{{ Site::BRAND }}</span>
-            <button class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-fg-secondary transition-colors duration-150 hover:bg-bg-surface hover:text-fg"
+        <div class="flex h-20 items-center justify-between border-b border-neutral-200/80 px-6">
+            <span class="text-sm font-black uppercase tracking-[0.25em] text-neutral-900">{{ Site::BRAND }}</span>
+            <button class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-neutral-300 text-neutral-700 transition-colors duration-150 hover:bg-neutral-100 hover:text-neutral-900"
                     aria-label="Close navigation"
                     onclick="document.getElementById('mobile-nav-trigger').click()">
                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -28,11 +26,11 @@
 
         {{-- Navigation Links --}}
         <div class="flex-1 overflow-y-auto px-6 py-8">
-            <ul class="space-y-1" role="list">
+            <ul class="space-y-2" role="list">
                 @foreach (Navigation::primary() as $item)
                     <li>
                         <a href="{{ $item['href'] }}"
-                           class="flex items-center rounded-lg px-4 py-3 text-base text-fg-secondary transition-colors duration-150 hover:bg-bg-surface hover:text-fg {{ request()->is(ltrim($item['href'], '/') . '*') ? 'bg-bg-surface !text-fg font-medium' : '' }}">
+                           class="flex items-center rounded-xl px-4 py-3 text-base font-medium text-neutral-700 transition-colors duration-150 hover:bg-neutral-100 hover:text-neutral-900 {{ request()->is(ltrim($item['href'], '/') . '*') ? 'bg-neutral-100 !text-neutral-900 font-bold' : '' }}">
                             {{ $item['label'] }}
                         </a>
                     </li>
@@ -41,16 +39,16 @@
         </div>
 
         {{-- CTA --}}
-        <div class="border-t border-border p-6">
+        <div class="border-t border-neutral-200/80 p-6 space-y-4">
             <a href="/contact"
-               class="flex w-full items-center justify-center rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-white transition-all duration-150 hover:bg-accent-hover">
-                Start a Project
+               class="flex w-full items-center justify-center rounded-full bg-neutral-900 px-5 py-3.5 text-sm font-semibold text-white transition-all duration-150 hover:bg-black">
+                Let's Build &rarr;
             </a>
-            <div class="mt-4 space-y-2 text-center">
-                <a href="mailto:{{ Site::EMAIL }}" class="block text-caption text-fg-muted transition-colors duration-150 hover:text-fg-secondary">
+            <div class="space-y-1 text-center font-mono text-xs text-neutral-500">
+                <a href="mailto:{{ Site::EMAIL }}" class="block transition-colors hover:text-neutral-900">
                     {{ Site::EMAIL }}
                 </a>
-                <a href="tel:{{ str_replace(' ', '', Site::PHONE_PRIMARY) }}" class="block text-caption text-fg-muted transition-colors duration-150 hover:text-fg-secondary">
+                <a href="tel:{{ str_replace(' ', '', Site::PHONE_PRIMARY) }}" class="block transition-colors hover:text-neutral-900">
                     {{ Site::PHONE_PRIMARY }}
                 </a>
             </div>

@@ -5,7 +5,7 @@
    Brand: Dark-first, engineering identity, technical precision
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 
 /* --------------------------------------------------------------------------
@@ -80,18 +80,26 @@
    3. CSS CUSTOM PROPERTIES — Motion Tokens (docs/05-motion-system.md)
    -------------------------------------------------------------------------- */
 :root {
-    /* Duration */
+    /* Duration Tokens */
     --motion-duration-instant: 100ms;
-    --motion-duration-fast: 150ms;
-    --motion-duration-standard: 300ms;
-    --motion-duration-slow: 500ms;
-    --motion-duration-emphasis: 700ms;
+    --motion-duration-fast: 180ms;
+    --motion-duration-standard: 350ms;
+    --motion-duration-slow: 600ms;
+    --motion-duration-emphasis: 900ms;
 
-    /* Easing */
+    /* Easing Tokens */
     --motion-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
     --motion-ease-enter: cubic-bezier(0, 0, 0.2, 1);
     --motion-ease-exit: cubic-bezier(0.4, 0, 1, 1);
     --motion-ease-emphasis: cubic-bezier(0.2, 0, 0, 1);
+    --motion-ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+    --motion-ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --motion-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+    /* Reveal Distances */
+    --reveal-sm: 8px;
+    --reveal-md: 18px;
+    --reveal-lg: 36px;
 }
 
 /* --------------------------------------------------------------------------
@@ -216,10 +224,11 @@ body {
    -------------------------------------------------------------------------- */
 .reveal {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(24px);
     transition:
-        opacity var(--motion-duration-standard) var(--motion-ease-enter),
-        transform var(--motion-duration-standard) var(--motion-ease-enter);
+        opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
 }
 
 .reveal.is-visible {
@@ -227,13 +236,27 @@ body {
     transform: translateY(0);
 }
 
+.reveal-scale {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+    transition:
+        opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal-scale.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
 /* Staggered reveal for child elements */
-.reveal-stagger > .reveal:nth-child(1) { transition-delay: 0ms; }
-.reveal-stagger > .reveal:nth-child(2) { transition-delay: 80ms; }
-.reveal-stagger > .reveal:nth-child(3) { transition-delay: 160ms; }
-.reveal-stagger > .reveal:nth-child(4) { transition-delay: 240ms; }
-.reveal-stagger > .reveal:nth-child(5) { transition-delay: 320ms; }
-.reveal-stagger > .reveal:nth-child(6) { transition-delay: 400ms; }
+.reveal-stagger > *:nth-child(1) { transition-delay: 0ms; }
+.reveal-stagger > *:nth-child(2) { transition-delay: 80ms; }
+.reveal-stagger > *:nth-child(3) { transition-delay: 160ms; }
+.reveal-stagger > *:nth-child(4) { transition-delay: 240ms; }
+.reveal-stagger > *:nth-child(5) { transition-delay: 320ms; }
+.reveal-stagger > *:nth-child(6) { transition-delay: 400ms; }
 
 /* --------------------------------------------------------------------------
    9. SELECTION — Brand-consistent text selection
@@ -282,3 +305,513 @@ body {
 .skip-link:focus {
     top: 1rem;
 }
+
+/* --------------------------------------------------------------------------
+   12. FROSTED GLASS & SPECULAR BORDER SYSTEMS
+   -------------------------------------------------------------------------- */
+.frosted-glass,
+.liquid-glass {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow:
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.95),
+        0 16px 36px -10px rgba(0, 0, 0, 0.05),
+        0 4px 12px -2px rgba(0, 0, 0, 0.02);
+}
+
+.frosted-glass-card {
+    background: rgba(255, 255, 255, 0.68);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow:
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.95),
+        0 12px 32px -8px rgba(0, 0, 0, 0.04);
+}
+
+.frosted-glass-subtle,
+.liquid-glass-subtle {
+    background: rgba(248, 248, 250, 0.75);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border: 1px solid rgba(228, 228, 231, 0.7);
+    box-shadow:
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.9),
+        0 8px 24px -4px rgba(0, 0, 0, 0.03);
+}
+
+.frosted-glass-dark,
+.liquid-glass-dark {
+    background: rgba(15, 16, 19, 0.78);
+    backdrop-filter: blur(24px) saturate(190%);
+    -webkit-backdrop-filter: blur(24px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow:
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.18),
+        0 24px 48px -12px rgba(0, 0, 0, 0.5);
+}
+
+.frosted-glass-pill,
+.glass-pill {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px) saturate(170%);
+    -webkit-backdrop-filter: blur(12px) saturate(170%);
+    border: 1px solid rgba(228, 228, 231, 0.75);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.95);
+}
+
+/* --------------------------------------------------------------------------
+   13. POPUP MICRO-INTERACTIONS & MAGNETIC EFFECTS
+   -------------------------------------------------------------------------- */
+.hover-lift {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.95),
+        0 20px 40px -10px rgba(0, 0, 0, 0.08),
+        0 4px 12px -2px rgba(0, 0, 0, 0.03);
+}
+
+.hover-scale {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-scale:hover {
+    transform: scale(1.02);
+}
+
+.btn-magnetic {
+    display: inline-flex;
+    position: relative;
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
+    will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   14. HERO SPECIALIZED GLASS TYPOGRAPHY & DIAGONAL SLICE
+   -------------------------------------------------------------------------- */
+.hero-title-glass {
+    color: #FFFFFF;
+    -webkit-text-fill-color: #FFFFFF;
+    -webkit-text-stroke: 3.5px #000000;
+    paint-order: stroke fill;
+    display: inline-block;
+}
+
+.clip-hero-roof {
+    clip-path: polygon(64.4% 0%, 100% 0%, 100% 100%, 37% 100%, 51.5% 50.5%);
+}
+
+.clip-hero-diagonal {
+    clip-path: polygon(64.4% 0%, 100% 0%, 100% 100%, 37% 100%, 51.5% 50.5%);
+}
+
+/* --------------------------------------------------------------------------
+   15. PREMIUM REVEAL PRIMITIVES & MOTION SYSTEM
+   -------------------------------------------------------------------------- */
+.reveal-line-wrap {
+    overflow: hidden;
+    display: block;
+    padding-bottom: 0.08em;
+}
+
+.reveal-line {
+    display: inline-block;
+    transform: translateY(115%);
+    opacity: 0;
+    transition: transform var(--motion-duration-emphasis) var(--motion-ease-spring), opacity var(--motion-duration-slow) ease-out;
+    will-change: transform, opacity;
+}
+
+.is-visible .reveal-line,
+.reveal-line.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.reveal-line-delay-1 { transition-delay: 80ms; }
+.reveal-line-delay-2 { transition-delay: 160ms; }
+.reveal-line-delay-3 { transition-delay: 240ms; }
+
+.reveal-fade-up {
+    opacity: 0;
+    transform: translateY(var(--reveal-md));
+    transition: opacity var(--motion-duration-slow) var(--motion-ease-out-expo), transform var(--motion-duration-slow) var(--motion-ease-spring);
+    will-change: transform, opacity;
+}
+
+.is-visible .reveal-fade-up,
+.reveal-fade-up.is-visible,
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-image-container {
+    overflow: hidden;
+    position: relative;
+}
+
+.reveal-image {
+    transform: scale(1.06);
+    opacity: 0.9;
+    transition: transform 0.9s var(--motion-ease-spring), opacity 0.6s ease-out;
+    will-change: transform, opacity;
+}
+
+.is-visible .reveal-image,
+.reveal-image.is-visible {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Stagger grid utilities */
+.reveal-stagger > *:nth-child(1) { transition-delay: 40ms; }
+.reveal-stagger > *:nth-child(2) { transition-delay: 90ms; }
+.reveal-stagger > *:nth-child(3) { transition-delay: 140ms; }
+.reveal-stagger > *:nth-child(4) { transition-delay: 190ms; }
+.reveal-stagger > *:nth-child(5) { transition-delay: 240ms; }
+.reveal-stagger > *:nth-child(6) { transition-delay: 290ms; }
+
+/* --------------------------------------------------------------------------
+   16. MAGNETIC BUTTONS & INTERACTION PHYSICS
+   -------------------------------------------------------------------------- */
+.btn-magnetic {
+    display: inline-flex;
+    position: relative;
+    transition: transform 0.25s var(--motion-ease-spring), box-shadow 0.22s ease;
+    will-change: transform;
+}
+
+.btn-magnetic-icon {
+    display: inline-block;
+    transition: transform 0.2s var(--motion-ease-spring);
+    will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   17. INTERACTIVE PROJECT CURSOR FOLLOWER (Desktop Only)
+   -------------------------------------------------------------------------- */
+.project-cursor-pill {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 0;
+    background: rgba(15, 16, 18, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 7px 15px;
+    border-radius: 9999px;
+    box-shadow: 0 12px 30px -6px rgba(0, 0, 0, 0.5);
+    transition: opacity 0.2s ease, transform 0.25s var(--motion-ease-spring);
+    will-change: transform, opacity;
+}
+
+.project-cursor-pill.is-active {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* --------------------------------------------------------------------------
+   18. HEADER NAVIGATION DYNAMICS
+   -------------------------------------------------------------------------- */
+header#site-header {
+    transition: padding 0.3s var(--motion-ease-spring), background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+header#site-header.is-scrolled {
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+    border-bottom-color: rgba(228, 228, 231, 0.9);
+}
+
+header#site-header.is-top {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    background-color: rgba(255, 255, 255, 0.75);
+}
+
+.nav-link-indicator {
+    position: relative;
+}
+
+.nav-link-indicator::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 14px;
+    height: 2px;
+    background-color: #0A0A0B;
+    border-radius: 9999px;
+    transition: transform 0.22s var(--motion-ease-spring);
+    transform-origin: center;
+}
+
+.nav-link-indicator:hover::after,
+.nav-link-indicator.is-active::after {
+    transform: translateX(-50%) scaleX(1);
+}
+
+/* --------------------------------------------------------------------------
+   19. WORK PINNED STORYTELLING TRANSITIONS
+   -------------------------------------------------------------------------- */
+.work-story-panel {
+    transition: opacity 0.4s ease, transform 0.45s var(--motion-ease-spring);
+}
+
+.work-story-panel.is-active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.work-story-panel:not(.is-active) {
+    opacity: 0;
+    transform: translateY(14px);
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+}
+
+.work-visual-item {
+    transition: opacity 0.5s ease, transform 0.6s var(--motion-ease-spring);
+}
+
+.work-visual-item.is-active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+.work-visual-item:not(.is-active) {
+    opacity: 0;
+    transform: scale(0.97);
+    pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   20. ARCHITECTURAL TYPOGRAPHY SYSTEM
+   -------------------------------------------------------------------------- */
+.text-display-2xl {
+    font-size: clamp(3.2rem, 7.5vw + 1rem, 7.2rem);
+    font-weight: 800;
+    line-height: 0.94;
+    letter-spacing: -0.035em;
+}
+
+.text-display-xl {
+    font-size: clamp(2.4rem, 5.5vw + 0.5rem, 5.2rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+}
+
+.text-display-lg {
+    font-size: clamp(2rem, 4vw + 0.5rem, 3.8rem);
+    font-weight: 700;
+    line-height: 1.06;
+    letter-spacing: -0.02em;
+}
+
+.text-architectural {
+    font-size: clamp(3.5rem, 11vw, 10.5rem);
+    font-weight: 900;
+    line-height: 0.88;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   21. KINETIC MARQUEE TYPOGRAPHY ENGINE
+   -------------------------------------------------------------------------- */
+@keyframes marquee-left {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes marquee-right {
+    0% { transform: translate3d(-50%, 0, 0); }
+    100% { transform: translate3d(0, 0, 0); }
+}
+
+.marquee-wrap {
+    overflow: hidden;
+    width: 100%;
+    white-space: nowrap;
+    position: relative;
+    user-select: none;
+}
+
+.marquee-track {
+    display: inline-flex;
+    will-change: transform;
+    animation: marquee-left 34s linear infinite;
+}
+
+.marquee-track-reverse {
+    display: inline-flex;
+    will-change: transform;
+    animation: marquee-right 34s linear infinite;
+}
+
+.marquee-wrap:hover .marquee-track,
+.marquee-wrap:hover .marquee-track-reverse {
+    animation-play-state: paused;
+}
+
+/* --------------------------------------------------------------------------
+   22. INTERACTIVE SPLIT SERVICES SHOWCASE
+   -------------------------------------------------------------------------- */
+.service-split-row {
+    position: relative;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    transition: padding 0.3s var(--motion-ease-spring), background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.service-split-row:hover,
+.service-split-row.is-active {
+    padding-left: 1rem;
+    border-bottom-color: rgba(0, 0, 0, 0.35);
+}
+
+.service-split-row .service-arrow {
+    transition: transform 0.3s var(--motion-ease-spring), color 0.2s ease;
+}
+
+.service-split-row:hover .service-arrow,
+.service-split-row.is-active .service-arrow {
+    transform: translate(5px, -5px);
+    color: #0A0A0B;
+}
+
+.service-stage-visual {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.5s ease, transform 0.65s var(--motion-ease-spring);
+}
+
+.service-stage-visual.is-active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+.service-stage-visual:not(.is-active) {
+    opacity: 0;
+    transform: scale(1.04);
+    pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   23. DUAL-MODE DESKTOP CUSTOM CURSOR
+   -------------------------------------------------------------------------- */
+.custom-cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    background-color: #0A0A0B;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.2s ease;
+    will-change: transform, opacity;
+}
+
+.custom-cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 32px;
+    border: 1.5px solid rgba(10, 10, 11, 0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.25s var(--motion-ease-spring), height 0.25s var(--motion-ease-spring), border-color 0.2s ease, opacity 0.2s ease, background-color 0.2s ease;
+    will-change: transform, width, height;
+}
+
+.custom-cursor-ring.is-hover {
+    width: 50px;
+    height: 50px;
+    border-color: rgba(10, 10, 11, 0.85);
+    background-color: rgba(10, 10, 11, 0.04);
+}
+
+.custom-cursor-dot.is-dark {
+    background-color: #FFFFFF;
+}
+
+.custom-cursor-ring.is-dark {
+    border-color: rgba(255, 255, 255, 0.45);
+}
+
+.custom-cursor-ring.is-dark.is-hover {
+    border-color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+@media (pointer: coarse), (hover: none) {
+    .custom-cursor-dot,
+    .custom-cursor-ring,
+    .project-cursor-pill {
+        display: none !important;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   24. EDITORIAL HORIZONTAL PROCESS TIMELINE
+   -------------------------------------------------------------------------- */
+.process-step-trigger {
+    cursor: pointer;
+    transition: opacity 0.25s ease, border-color 0.25s ease;
+}
+
+.process-step-trigger.is-active {
+    opacity: 1;
+    border-top-color: #0A0A0B;
+}
+
+.process-step-trigger:not(.is-active) {
+    opacity: 0.45;
+}
+
+.process-step-trigger:hover {
+    opacity: 0.85;
+}
+
+.process-progress-line {
+    transition: width 0.45s var(--motion-ease-spring);
+}
+
+
+
+

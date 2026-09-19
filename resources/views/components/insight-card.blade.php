@@ -3,26 +3,55 @@
     'class' => '',
 ])
 
-<article {{ $attributes->merge(['class' => 'group flex flex-col justify-between rounded-xl border border-border bg-bg-elevated p-6 transition-all duration-200 hover:border-border-hover hover:bg-bg-surface hover:shadow-lg ' . $class]) }}>
+@php
+    $slug = $insight['slug'] ?? '';
+    $imageMap = [
+        'future-of-ai-in-business' => 'images/insight-ai-mountain.jpg',
+        'why-custom-software-wins' => 'images/insight-custom-software.jpg',
+        'how-to-build-scalable-products' => 'images/insight-scalable-architecture.jpg',
+    ];
+    $cardImage = $insight['image'] ?? ($imageMap[$slug] ?? 'images/insight-ai-mountain.jpg');
+@endphp
+
+<article {{ $attributes->merge(['class' => 'reveal group flex flex-col justify-between rounded-3xl frosted-glass-card p-5 hover-lift ' . $class]) }}>
+
     <div>
-        <div class="flex items-center justify-between text-xs text-fg-muted font-mono">
-            <span>{{ $insight['category'] }}</span>
-            <span>{{ $insight['read_time'] }}</span>
+        {{-- Thumbnail --}}
+        <div class="overflow-hidden rounded-2xl bg-neutral-100 aspect-[16/10] border border-neutral-200/80 relative">
+            <img
+                src="{{ asset($cardImage) }}"
+                alt="{{ $insight['title'] }}"
+                class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                loading="lazy"
+            />
+            <div class="absolute top-3 left-3">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-mono bg-white/90 backdrop-blur-md text-neutral-800 border border-white/60 shadow-xs">
+                    {{ $insight['category'] ?? 'Engineering' }}
+                </span>
+            </div>
         </div>
 
-        <h3 class="mt-4 text-base font-semibold text-fg group-hover:text-accent transition-colors duration-150">
-            {{ $insight['title'] }}
-        </h3>
+        {{-- Meta & Title --}}
+        <div class="mt-5 px-1">
+            <div class="flex items-center justify-between text-xs text-neutral-400 font-mono">
+                <span>{{ $insight['published_at'] ?? '2024' }}</span>
+                <span>{{ $insight['read_time'] ?? '5 min read' }}</span>
+            </div>
 
-        <p class="mt-2 text-sm leading-relaxed text-fg-secondary">
-            {{ $insight['summary'] }}
-        </p>
+            <h3 class="mt-3 text-lg font-bold text-neutral-900 group-hover:text-neutral-600 transition-colors">
+                {{ $insight['title'] }}
+            </h3>
+
+            @if (!empty($insight['summary']))
+                <p class="mt-2 text-sm leading-relaxed text-neutral-600 line-clamp-2">
+                    {{ $insight['summary'] }}
+                </p>
+            @endif
+        </div>
     </div>
 
-    <div class="mt-6 flex items-center justify-between border-t border-border pt-4 text-xs">
-        <span class="font-mono text-fg-muted">{{ $insight['published_at'] }}</span>
-        <span class="font-semibold text-accent group-hover:translate-x-1 transition-transform duration-150 inline-flex items-center gap-1">
-            Read article &rarr;
-        </span>
+    <div class="mt-5 px-1 flex items-center justify-between text-xs font-mono text-neutral-500 pt-4 border-t border-neutral-100">
+        <span class="font-semibold text-neutral-900">Read Article</span>
+        <span class="group-hover:translate-x-1.5 transition-transform duration-200 text-neutral-900 font-bold">&rarr;</span>
     </div>
 </article>

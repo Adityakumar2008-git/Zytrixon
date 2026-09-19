@@ -6,6 +6,20 @@
 <footer class="border-t border-neutral-200/80 bg-white" role="contentinfo">
     <div class="mx-auto max-w-[1400px] px-6 py-16 lg:px-12 lg:py-20">
 
+        {{-- Final Statement Banner --}}
+        <div class="border-b border-neutral-200/80 pb-12 mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+                <span class="font-mono text-xs uppercase tracking-[0.25em] text-neutral-400 block mb-3">08 / INITIATE</span>
+                <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-neutral-950 uppercase leading-[0.98]">
+                    Let's build<br>what's next.
+                </h2>
+            </div>
+            <a href="/contact" class="btn-magnetic btn-magnetic-primary inline-flex items-center gap-3 rounded-full bg-neutral-950 px-8 py-4 text-sm font-semibold text-white shadow-xl hover:bg-black transition-all">
+                <span>Start a Conversation</span>
+                <span class="btn-magnetic-icon">&rarr;</span>
+            </a>
+        </div>
+
         <div class="grid gap-12 lg:grid-cols-12">
 
             {{-- Brand Column (3 cols) --}}

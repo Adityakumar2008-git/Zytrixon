@@ -38,6 +38,10 @@
 </head>
 <body class="bg-[#FAFAFA] text-neutral-900 antialiased selection:bg-neutral-900 selection:text-white">
 
+    {{-- Precision Custom Cursor (Desktop Only) --}}
+    <div id="cursor-dot" class="custom-cursor-dot" aria-hidden="true"></div>
+    <div id="cursor-ring" class="custom-cursor-ring" aria-hidden="true"></div>
+
     {{-- Skip Link — Accessibility per docs/09-accessibility.md §8 --}}
     <a href="#main-content" class="skip-link">
         Skip to main content
@@ -53,16 +57,6 @@
 
     {{-- Footer --}}
     <x-footer />
-
-    {{-- Mobile Navigation Overlay --}}
-    <div id="mobile-nav-overlay"
-         class="fixed inset-0 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out"
-         style="z-index: var(--z-overlay);"
-         aria-hidden="true">
-    </div>
-
-    {{-- Mobile Navigation Drawer --}}
-    <x-mobile-nav />
 
 </body>
 </html>
