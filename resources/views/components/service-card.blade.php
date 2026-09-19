@@ -12,7 +12,7 @@
     <div>
         {{-- Icon Header --}}
         <div class="flex items-center justify-between">
-            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white border border-neutral-200/80 text-neutral-900 shadow-xs transition-colors duration-200 group-hover:bg-neutral-900 group-hover:text-white">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white dark:bg-[#18191E] border border-neutral-200/80 dark:border-neutral-700/80 text-neutral-900 dark:text-white shadow-xs transition-colors duration-200 group-hover:bg-neutral-900 dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-black">
                 @if(($service['icon'] ?? '') === 'globe')
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" /></svg>
                 @elseif(($service['icon'] ?? '') === 'device-mobile')
@@ -28,28 +28,28 @@
                 @endif
             </div>
 
-            <div class="btn-magnetic flex h-9 w-9 items-center justify-center rounded-full border border-neutral-300/80 bg-white/90 text-neutral-900 shadow-2xs transition-all duration-200 group-hover:bg-neutral-900 group-hover:text-white group-hover:border-neutral-900">
+            <div class="btn-magnetic flex h-9 w-9 items-center justify-center rounded-full border border-neutral-300/80 dark:border-neutral-700 bg-white/90 dark:bg-[#18191E] text-neutral-900 dark:text-white shadow-2xs transition-all duration-200 group-hover:bg-neutral-900 dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-black group-hover:border-neutral-900 dark:group-hover:border-white">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                 </svg>
             </div>
         </div>
 
-        <h3 class="mt-6 text-xl font-bold text-neutral-900 group-hover:text-black">
+        <h3 class="mt-6 text-xl font-bold text-neutral-900 dark:text-white group-hover:text-black dark:group-hover:text-white">
             <a href="/services/{{ $slug }}" class="focus:outline-none">
                 <span class="absolute inset-0" aria-hidden="true"></span>
                 {{ $service['title'] }}
             </a>
         </h3>
 
-        <p class="mt-3 text-sm leading-relaxed text-neutral-600">
+        <p class="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
             {{ $service['description'] }}
         </p>
 
         @if (!empty($service['capabilities']))
-            <div class="mt-6 border-t border-neutral-200/60 pt-4 flex flex-wrap gap-1.5">
+            <div class="mt-6 border-t border-neutral-200/60 dark:border-neutral-800 pt-4 flex flex-wrap gap-1.5">
                 @foreach (array_slice($service['capabilities'], 0, 3) as $cap)
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-mono bg-white/80 border border-neutral-200/70 text-neutral-600 shadow-2xs">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-mono bg-white/80 dark:bg-neutral-800/80 border border-neutral-200/70 dark:border-neutral-700/70 text-neutral-600 dark:text-neutral-300 shadow-2xs">
                         {{ $cap }}
                     </span>
                 @endforeach
@@ -57,7 +57,7 @@
         @endif
     </div>
 
-    <div class="mt-8 pt-2 flex items-center gap-2 text-xs font-semibold text-neutral-900">
+    <div class="mt-8 pt-2 flex items-center gap-2 text-xs font-semibold text-neutral-900 dark:text-white">
         <span>Explore Architecture</span>
         <span class="group-hover:translate-x-1.5 transition-transform duration-200">&rarr;</span>
     </div>

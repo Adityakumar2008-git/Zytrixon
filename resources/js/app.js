@@ -11,13 +11,13 @@ const isReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce
 const isFinePointer = () => window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
 /**
- * 1. REVEAL SYSTEM
+ * 1. CINEMATIC REVEAL & SOFT POPUP SYSTEM
  * High-performance IntersectionObserver orchestrating line-by-line masked reveals,
- * text fades, image zoom settling, and staggered grid emergence.
+ * soft popups, curtain clips, blur fades, image zoom settling, and staggered emergence.
  */
 function initRevealSystem() {
     const targets = document.querySelectorAll(
-        '.reveal, .reveal-line, .reveal-fade-up, .reveal-image, .reveal-stagger'
+        '.reveal, .reveal-line, .reveal-fade-up, .reveal-image, .reveal-stagger, .reveal-soft-pop, .reveal-scale, .reveal-clip, .reveal-left, .reveal-right'
     );
 
     if (!targets.length) return;
@@ -25,7 +25,7 @@ function initRevealSystem() {
     if (isReducedMotion()) {
         targets.forEach((el) => {
             el.classList.add('is-visible');
-            el.querySelectorAll('.reveal-line, .reveal-fade-up, .reveal-image').forEach((child) => {
+            el.querySelectorAll('.reveal-line, .reveal-fade-up, .reveal-image, .reveal-soft-pop, .reveal-scale, .reveal-clip').forEach((child) => {
                 child.classList.add('is-visible');
             });
         });
@@ -40,8 +40,13 @@ function initRevealSystem() {
                     el.classList.add('is-visible');
 
                     // Trigger nested reveal items
-                    el.querySelectorAll('.reveal-line, .reveal-fade-up, .reveal-image').forEach((child) => {
+                    el.querySelectorAll('.reveal-line, .reveal-fade-up, .reveal-image, .reveal-soft-pop, .reveal-scale, .reveal-clip, .reveal-left, .reveal-right').forEach((child) => {
                         child.classList.add('is-visible');
+                    });
+
+                    // Trigger any counter tickers inside this revealed section
+                    el.querySelectorAll('[data-counter-target]').forEach((counterEl) => {
+                        animateCounter(counterEl);
                     });
 
                     observer.unobserve(el);
@@ -107,15 +112,16 @@ function initPrecisionCursor() {
             if (!rafId) rafId = window.requestAnimationFrame(renderCursor);
         }
 
-        // Check if cursor is over a dark container
+        // Check if cursor is over a dark container or site is in dark mode
         const target = e.target;
-        const isOverDark = target && (
+        const isDarkTheme = document.documentElement.classList.contains('dark');
+        const isOverDark = isDarkTheme || (target && (
             target.closest('.bg-[#0E0F12]') ||
             target.closest('.bg-[#0A0A0B]') ||
             target.closest('.bg-neutral-900') ||
             target.closest('footer') ||
             target.closest('[data-theme="dark"]')
-        );
+        ));
 
         dot.classList.toggle('is-dark', !!isOverDark);
         ring.classList.toggle('is-dark', !!isOverDark);
@@ -147,8 +153,8 @@ function initPrecisionCursor() {
 }
 
 /**
- * 3. MAGNETIC BUTTON SYSTEM
- * Desktop fine-pointer only. Constrained pull with inner icon translation.
+ * 3. MAGNETIC BUTTON SLIDERS & INTERACTION PHYSICS
+ * Desktop fine-pointer only. Dynamic coordinate tracking for slider glow + spring recoil.
  */
 function initMagneticButtons() {
     if (isReducedMotion() || !isFinePointer()) return;
@@ -156,8 +162,8 @@ function initMagneticButtons() {
     const magneticElements = document.querySelectorAll('.btn-magnetic, [data-magnetic]');
 
     magneticElements.forEach((el) => {
-        const isPrimary = el.classList.contains('btn-magnetic-primary') || el.classList.contains('bg-[#0F1012]') || el.classList.contains('bg-neutral-900');
-        const maxDist = isPrimary ? 12 : 8;
+        const isPrimary = el.classList.contains('btn-magnetic-primary') || el.classList.contains('bg-[#0F1012]') || el.classList.contains('bg-neutral-900') || el.classList.contains('dark:bg-[#18191E]');
+        const maxDist = isPrimary ? 16 : 10;
         const icon = el.querySelector('.btn-magnetic-icon, svg');
 
         let isHovered = false;
@@ -172,16 +178,22 @@ function initMagneticButtons() {
             const relX = e.clientX - (rect.left + rect.width / 2);
             const relY = e.clientY - (rect.top + rect.height / 2);
 
+            // Set coordinates for button slider glow sheen
+            const mouseXPct = ((e.clientX - rect.left) / rect.width) * 100;
+            const mouseYPct = ((e.clientY - rect.top) / rect.height) * 100;
+            el.style.setProperty('--mouse-x', `${mouseXPct.toFixed(1)}%`);
+            el.style.setProperty('--mouse-y', `${mouseYPct.toFixed(1)}%`);
+
             const dist = Math.hypot(relX, relY);
-            const factor = Math.min(dist * 0.2, maxDist) / (dist || 1);
+            const factor = Math.min(dist * 0.24, maxDist) / (dist || 1);
             const transX = relX * factor;
             const transY = relY * factor;
 
-            el.style.transform = `translate(${transX.toFixed(1)}px, ${transY.toFixed(1)}px)`;
+            el.style.transform = `translate3d(${transX.toFixed(1)}px, ${transY.toFixed(1)}px, 0)`;
 
             if (icon) {
-                const iconFactor = factor * 1.4;
-                icon.style.transform = `translate(${(relX * iconFactor).toFixed(1)}px, ${(relY * iconFactor).toFixed(1)}px)`;
+                const iconFactor = factor * 1.6;
+                icon.style.transform = `translate3d(${(relX * iconFactor).toFixed(1)}px, ${(relY * iconFactor).toFixed(1)}px, 0)`;
             }
         });
 
@@ -447,9 +459,197 @@ function initWorkStorytelling() {
 }
 
 /**
+ * 10. THEME TOGGLE ENGINE (DARK / LIGHT MODE)
+ * Smoothly toggles .dark class on root element, updates localStorage, and notifies listeners.
+ */
+function initThemeToggle() {
+    const toggleButtons = document.querySelectorAll('#theme-toggle-btn, .theme-toggle-trigger');
+    if (!toggleButtons.length) return;
+
+    function applyTheme(isDark) {
+        document.documentElement.classList.toggle('dark', isDark);
+        try {
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        } catch (e) {}
+
+        // Re-evaluate cursor colors if cursor elements exist
+        const dot = document.getElementById('cursor-dot');
+        const ring = document.getElementById('cursor-ring');
+        if (dot && ring) {
+            dot.classList.toggle('is-dark', isDark);
+            ring.classList.toggle('is-dark', isDark);
+        }
+    }
+
+    toggleButtons.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const currentlyDark = document.documentElement.classList.contains('dark');
+            applyTheme(!currentlyDark);
+        });
+    });
+
+    // Listen to cross-tab storage changes
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'theme') {
+            applyTheme(e.newValue === 'dark');
+        }
+    });
+}
+
+/**
+ * 11. 3D CARD PERSPECTIVE TILT & SPECULAR LIQUID GLOW
+ * Dynamic 3D physical tilt for cards with moving specular reflection.
+ */
+function initCardTilt3D() {
+    if (isReducedMotion() || !isFinePointer()) return;
+
+    const cards = document.querySelectorAll(
+        '.frosted-glass-card, .process-card, .service-split-row, .card-tilt-3d, .hover-lift'
+    );
+
+    cards.forEach((card) => {
+        // Ensure card has shine overlay
+        if (!card.querySelector('.card-shine-overlay')) {
+            const shine = document.createElement('div');
+            shine.className = 'card-shine-overlay';
+            card.appendChild(shine);
+        }
+
+        let isHovered = false;
+
+        card.addEventListener('mouseenter', () => {
+            isHovered = true;
+        });
+
+        card.addEventListener('mousemove', (e) => {
+            if (!isHovered) return;
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateX = ((y - centerY) / centerY) * -5.5;
+            const rotateY = ((x - centerX) / centerX) * 5.5;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-5px)`;
+            card.style.setProperty('--shine-x', `${(x / rect.width) * 100}%`);
+            card.style.setProperty('--shine-y', `${(y / rect.height) * 100}%`);
+        });
+
+        card.addEventListener('mouseleave', () => {
+            isHovered = false;
+            card.style.transform = '';
+        });
+    });
+}
+
+/**
+ * 12. TOP KINETIC SCROLL PROGRESS BAR
+ */
+function initScrollProgress() {
+    const progressBar = document.getElementById('scroll-progress');
+    if (!progressBar) return;
+
+    let ticking = false;
+
+    function update() {
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0;
+        progressBar.style.width = `${progress.toFixed(2)}%`;
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(update);
+            ticking = true;
+        }
+    }, { passive: true });
+
+    update();
+}
+
+/**
+ * 13. DYNAMIC METRIC COUNTER TICKER
+ */
+function animateCounter(el) {
+    if (el.dataset.counterDone) return;
+    el.dataset.counterDone = 'true';
+
+    const raw = el.textContent.trim();
+    const match = raw.match(/(\d+)/);
+    if (!match) return;
+
+    const targetVal = parseInt(match[1], 10);
+    const prefix = raw.slice(0, match.index);
+    const suffix = raw.slice(match.index + match[1].length);
+
+    let start = 0;
+    const duration = 1200;
+    const startTime = performance.now();
+
+    function updateCounter(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        // Easing: easeOutExpo
+        const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+        const current = Math.round(start + (targetVal - start) * ease);
+
+        el.textContent = `${prefix}${current}${suffix}`;
+
+        if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+        } else {
+            el.textContent = raw;
+        }
+    }
+
+    requestAnimationFrame(updateCounter);
+}
+
+function initCounterTickers() {
+    if (isReducedMotion()) return;
+
+    const metricNumbers = document.querySelectorAll(
+        '#about .font-mono.font-black, [data-counter]'
+    );
+
+    metricNumbers.forEach((numEl) => {
+        if (!numEl.hasAttribute('data-counter-target')) {
+            numEl.setAttribute('data-counter-target', 'true');
+        }
+    });
+}
+
+/**
+ * 14. SOFT POPUP LIVE STATUS PILL
+ */
+function initLiveStatusPill() {
+    const pill = document.getElementById('live-status-pill');
+    const dismissBtn = document.getElementById('dismiss-status-pill');
+
+    if (!pill) return;
+
+    if (dismissBtn) {
+        dismissBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            pill.style.transition = 'opacity 0.3s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+            pill.style.opacity = '0';
+            pill.style.transform = 'translateY(20px) scale(0.9)';
+            setTimeout(() => pill.remove(), 400);
+        });
+    }
+}
+
+/**
  * Global Initialization on DOMContentLoaded
  */
 document.addEventListener('DOMContentLoaded', () => {
+    initThemeToggle();
     initRevealSystem();
     initPrecisionCursor();
     initMagneticButtons();
@@ -459,6 +659,11 @@ document.addEventListener('DOMContentLoaded', () => {
     initSplitServices();
     initProcessTimeline();
     initWorkStorytelling();
+    initCardTilt3D();
+    initScrollProgress();
+    initCounterTickers();
+    initLiveStatusPill();
 });
+
 
 

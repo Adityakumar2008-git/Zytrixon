@@ -22,7 +22,9 @@ final class PagesTest extends TestCase
             ->assertSee('Build What')
             ->assertSee('Business Forward')
             ->assertSee('OUR SERVICES')
-            ->assertSee('FEATURED WORK');
+            ->assertSee('FEATURED WORK')
+            ->assertSee('id="theme-toggle-btn"', false)
+            ->assertSee('aria-label="Toggle dark mode"', false);
     }
 
     public function test_homepage_contains_schema_and_og_metadata(): void
