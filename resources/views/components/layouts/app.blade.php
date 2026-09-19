@@ -16,11 +16,13 @@
     <meta property="og:description" content="{{ $description ?? 'Enterprise-grade Web, Mobile, and IoT solutions.' }}">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:site_name" content="Zytrixon Tech">
+    <meta property="og:image" content="{{ asset('images/og-image.jpg') }}">
 
     {{-- Twitter Card --}}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $title ?? 'Zytrixon Tech — We Engineer Digital Dominance' }}">
     <meta name="twitter:description" content="{{ $description ?? 'Enterprise-grade Web, Mobile, and IoT solutions.' }}">
+    <meta name="twitter:image" content="{{ asset('images/og-image.jpg') }}">
 
     {{-- Preconnect for fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">

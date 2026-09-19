@@ -6,10 +6,13 @@ namespace Tests\Feature;
 
 use App\Content\CaseStudies;
 use App\Content\Services;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 final class PagesTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_homepage_loads_successfully(): void
     {
         $response = $this->get('/');
@@ -19,6 +22,27 @@ final class PagesTest extends TestCase
             ->assertSee('We Engineer Digital Dominance')
             ->assertSee('Capabilities')
             ->assertSee('Selected Work');
+    }
+
+    public function test_homepage_contains_schema_and_og_metadata(): void
+    {
+        $response = $this->get('/');
+
+        $response->assertOk()
+            ->assertSee('application/ld+json', false)
+            ->assertSee('schema.org', false)
+            ->assertSee('images/og-image.jpg', false);
+    }
+
+    public function test_security_headers_are_present(): void
+    {
+        $response = $this->get('/');
+
+        $response->assertOk()
+            ->assertHeader('X-Content-Type-Options', 'nosniff')
+            ->assertHeader('X-Frame-Options', 'SAMEORIGIN')
+            ->assertHeader('Referrer-Policy', 'strict-origin-when-cross-origin')
+            ->assertHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
     }
 
     public function test_services_hub_loads_successfully(): void
@@ -108,6 +132,13 @@ final class PagesTest extends TestCase
 
         $response->assertRedirect('/contact');
         $response->assertSessionHas('success');
+
+        $this->assertDatabaseHas('leads', [
+            'name' => 'Alice Test',
+            'email' => 'alice@example.com',
+            'service' => 'web-development',
+            'status' => 'new',
+        ]);
     }
 
     public function test_contact_form_requires_mandatory_fields(): void

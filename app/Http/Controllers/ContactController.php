@@ -26,18 +26,18 @@ final class ContactController extends Controller
         ]);
     }
 
-    public function submit(ContactRequest $request): RedirectResponse
+    public function submit(ContactRequest $request, \App\Services\LeadService $leadService): RedirectResponse
     {
         $validated = $request->validated();
 
-        // Log enquiry for operational records
-        Log::info('New project enquiry received', [
+        $leadService->createLead([
+            'type' => 'contact',
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
             'service' => $validated['service'] ?? null,
-            'ip' => $request->ip(),
-        ]);
+            'message' => $validated['message'],
+        ], $request->ip());
 
         return redirect()->route('contact.show')->with('success', 'Thank you for reaching out. We have received your message and will reply within 2 hours.');
     }
